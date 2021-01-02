@@ -3148,11 +3148,6 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		return ORP;
 	end
 
-	if Faction == 'Alliance' then
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAal, 9)
-	else
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
-    end
 	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
 
 	local function Save_orp_vars(raidname3)
@@ -3565,11 +3560,6 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 		return ORP;
 	end
 
-	if Faction == 'Alliance' then
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAal, 9)
-	else
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
-    end
 	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
 
 	local function Save_orp_vars(raidname3)
