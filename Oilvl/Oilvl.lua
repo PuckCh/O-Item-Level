@@ -226,9 +226,8 @@ local otooltip6gearsw2=false; -- show only specific raider
 
 local bagilvltime=0
 
-local BFA, _, _ = EJ_GetTierInfo(8);
-local ULDid, ULDname = EJ_GetInstanceByIndex(2, true)
-local DAZAid, DAZAname = EJ_GetInstanceByIndex(3, true)
+local SL, _, _ = EJ_GetTierInfo(8);
+local CNid, CNname = EJ_GetInstanceByIndex(2, true)
 local COSid, COSname = EJ_GetInstanceByIndex(4, true)
 local TEPid, TEPname = EJ_GetInstanceByIndex(5, true)
 local NYid, NYname = EJ_GetInstanceByIndex(6, true)
@@ -236,310 +235,67 @@ local NYid, NYname = EJ_GetInstanceByIndex(6, true)
 
 -- Each raid has its own entry,
 -- 1-4 are Raid Finder, Normal, Heroic, and Mythic kills statistic ID
-local OSTATULD = {
+local OSTATCN = {
 	{
-		12786, -- [1]
-		12787, -- [2]
-		12788, -- [3]
-		12789, -- [4]
+	  	14422, -- [1]
+		14419, -- [2]
+		14420, -- [3]
+		14421, -- [4]
 	}, -- [1]
 	{
-		12790, -- [1]
-		12791, -- [2]
-		12792, -- [3]
-		12793, -- [4]
+		14426, -- [1]
+		14423, -- [2]
+		14424, -- [3]
+		14425, -- [4]
 	}, -- [2]
 	{
-		12794, -- [1]
-		12795, -- [2]
-		12796, -- [3]
-		12797, -- [4]
+		14430, -- [1]
+		14427, -- [2]
+		14428, -- [3]
+		14429, -- [4]
 	}, -- [3]
 	{
-		12798, -- [1]
-		12799, -- [2]
-		12800, -- [3]
-		12801, -- [4]
+		14434, -- [1]
+		14431, -- [2]
+		14432, -- [3]
+		14433, -- [4]
 	}, -- [4]
 	{
-		12802, -- [1]
-		12803, -- [2]
-		12804, -- [3]
-		12805, -- [4]
+		14438, -- [1]
+		14435, -- [2]
+		14436, -- [3]
+		14437, -- [4]
 	}, -- [5]
 	{
-		12808, -- [1]
-		12809, -- [2]
-		12810, -- [3]
-		12811, -- [4]
+		14442, -- [1]
+		14439, -- [2]
+		14440, -- [3]
+		14441, -- [4]
 	}, -- [6]
 	{
-		12813, -- [1]
-		12814, -- [2]
-		12815, -- [3]
-		12816, -- [4]
+		14446, -- [1]
+		14443, -- [2]
+		14444, -- [3]
+		14445, -- [4]
 	}, -- [7]
 	{
-		12817, -- [1]
-		12818, -- [2]
-		12819, -- [3]
-		12820, -- [4]
-	}, -- [8]
-}
-
-local OSTATDAZAho = {
-	{
-		13328, -- [1]
-		13329, -- [2]
-		13330, -- [3]
-		13331, -- [4]
-	}, -- [1]
-	{
-		13332, -- [1]
-		13333, -- [2]
-		13334, -- [3]
-		13336, -- [4]
-	}, -- [2]
-	{
-		13354, -- [1]
-		13355, -- [2]
-		13356, -- [3]
-		13357, -- [4]
-	}, -- [3]
-	{
-		13358, -- [1]
-		13359, -- [2]
-		13361, -- [3]
-		13362, -- [4]
-	}, -- [4]
-	{
-		13363, -- [1]
-		13364, -- [2]
-		13365, -- [3]
-		13366, -- [4]
-	}, -- [5]
-	{
-		13367, -- [1]
-		13368, -- [2]
-		13369, -- [3]
-		13370, -- [4]
-	}, -- [6]
-	{
-		13371, -- [1]
-		13372, -- [2]
-		13373, -- [3]
-		13374, -- [4]
-	}, -- [7]
-	{
-		13375, -- [1]
-		13376, -- [2]
-		13377, -- [3]
-		13378, -- [4]
+		14450, -- [1]
+		14447, -- [2]
+		14448, -- [3]
+		14449, -- [4]
 	}, -- [8]
 	{
-		13379, -- [1]
-		13380, -- [2]
-		13381, -- [3]
-		13382, -- [4]
-	}, -- [9]
-}
-
-local OSTATDAZAal = {
-	{
-		13328, -- [1]
-		13329, -- [2]
-		13330, -- [3]
-		13331, -- [4]
-	}, -- [1]
-	{
-		13349, -- [1]
-		13350, -- [2]
-		13351, -- [3]
-		13353, -- [4]
-	}, -- [2]
-	{
-		13344, -- [1]
-		13346, -- [2]
-		13347, -- [3]
-		13348, -- [4]
-	}, -- [3]
-	{
-		13358, -- [1]
-		13359, -- [2]
-		13361, -- [3]
-		13362, -- [4]
-	}, -- [4]
-	{
-		13363, -- [1]
-		13364, -- [2]
-		13365, -- [3]
-		13366, -- [4]
-	}, -- [5]
-	{
-		13367, -- [1]
-		13368, -- [2]
-		13369, -- [3]
-		13370, -- [4]
-	}, -- [6]
-	{
-		13371, -- [1]
-		13372, -- [2]
-		13373, -- [3]
-		13374, -- [4]
-	}, -- [7]
-	{
-		13375, -- [1]
-		13376, -- [2]
-		13377, -- [3]
-		13378, -- [4]
-	}, -- [8]
-	{
-		13379, -- [1]
-		13380, -- [2]
-		13381, -- [3]
-		13382, -- [4]
-	}, -- [9]
-}
-
-local OSTATCOS = {
-	{
-		13404, -- [1]
-		13405, -- [2]
-		13406, -- [3]
-		13407, -- [4]
-	}, -- [1]
-	{
-		13408, -- [1] 
-		13411, -- [2]
-		13412, -- [3]
-		13413, -- [4]
-	}, -- [2]
-}
-
-local OSTATTEP = {
-	{
-		13587, -- [1]
-		13588, -- [2]
-		13589, -- [3]
-		13590, -- [4]
-	}, -- [1]
-	{
-		13591, -- [1]
-		13592, -- [2]
-		13593, -- [3]
-		13594, -- [4]
-	}, -- [2]
-	{
-		13595, -- [1]
-		13596, -- [2]
-		13597, -- [3]
-		13598, -- [4]
-	}, -- [3]
-	{
-		13600, -- [1]
-		13601, -- [2]
-		13602, -- [3]
-		13603, -- [4]
-	}, -- [4]
-	{
-		13604, -- [1]
-		13605, -- [2]
-		13606, -- [3]
-		13607, -- [4]
-	}, -- [5]
-	{
-		13608, -- [1]
-		13609, -- [2]
-		13610, -- [3]
-		13611, -- [4]
-	}, -- [6]
-	{
-		13612, -- [1]
-		13613, -- [2]
-		13614, -- [3]
-		13615, -- [4]
-	}, -- [7]
-	{
-		13616, -- [1]
-		13617, -- [2]
-		13618, -- [3]
-		13619, -- [4]
-	}, -- [8]
-}
-
-local OSTATNY = {
-	{
-		14078, -- [1]
-		14079, -- [2]
-		14080, -- [3]
-		14082, -- [4]
-	}, -- [1]
-	{
-		14089, -- [1]
-		14091, -- [2]
-		14093, -- [3]
-		14094, -- [4]
-	}, -- [2]
-	{
-		14095, -- [1]
-		14096, -- [2]
-		14097, -- [3]
-		14098, -- [4]
-	}, -- [3]
-	{
-		14101, -- [1]
-		14102, -- [2]
-		14104, -- [3]
-		14105, -- [4]
-	}, -- [4]
-	{
-		14107, -- [1]
-		14108, -- [2]
-		14109, -- [3]
-		14110, -- [4]
-	}, -- [5]
-	{
-		14111, -- [1]
-		14112, -- [2]
-		14114, -- [3]
-		14115, -- [4]
-	}, -- [6]
-	{
-		14117, -- [1]
-		14118, -- [2]
-		14119, -- [3]
-		14120, -- [4]
-	}, -- [7]
-	{
-		14207, -- [1]
-		14208, -- [2]
-		14210, -- [3]
-		14211, -- [4]
-	}, -- [8]
-	{
-		14123, -- [1]
-		14124, -- [2]
-		14125, -- [3]
-		14126, -- [4]
+		14454, -- [1]
+		14451, -- [2]
+		14452, -- [3]
+		14453, -- [4]
 	}, -- [9]
 	{
-		14127, -- [1]
-		14128, -- [2]
-		14129, -- [3]
-		14130, -- [4]
+		14458, -- [1]
+		14455, -- [2]
+		14456, -- [3]
+		14457, -- [4]
 	}, -- [10]
-	{
-		14131, -- [1]
-		14132, -- [2]
-		14133, -- [3]
-		14134, -- [4]
-	}, -- [11]
-	{
-		14135, -- [1]
-		14136, -- [2]
-		14137, -- [3]
-		14138, -- [4]
-	}, -- [12]
 }
 
 local function round(number, digits)
@@ -1744,14 +1500,7 @@ function oilvlcheckrange()
 			for i = 2, OilvlTooltip:NumLines() do
 				msg = _G["OilvlTooltipTextLeft"..i]:GetText();
 				if msg then
-					--if cfg.raidmenuid == 5 then msg = msg:find(TENname); if msg then break end end
-					--if cfg.raidmenuid == 4 then msg = msg:find(TOVname); if msg then break end end
-					--if cfg.raidmenuid == 3 then msg = msg:find(TNname); if msg then break end end
-					if cfg.raidmenuid == 5 then msg = msg:find(NYname); if msg then break end end
-					if cfg.raidmenuid == 4 then msg = msg:find(TEPname); if msg then break end end
-					if cfg.raidmenuid == 3 then msg = msg:find(COSname); if msg then break end end
-					if cfg.raidmenuid == 2 then msg = msg:find(DAZAname); if msg then break end end
-					if cfg.raidmenuid == 1 then msg = msg:find(ULDname); if msg then break end end
+					if cfg.raidmenuid == 1 then msg = msg:find(CNname); if msg then break end end
 				end
 			end
 			if not msg then
@@ -2302,15 +2051,16 @@ local function CopyEditBox(cname, cx, cy, cw, ch)
 	g:SetCursorPosition(0);
 	f:Hide();
 
-	h = CreateFrame("Button", cname.."_bodyBackground", UIParent)
+	h = CreateFrame("Button", cname.."_bodyBackground", UIParent, "BackdropTemplate")
 	h:SetPoint("BOTTOMLEFT", f, -10,-10)
 	h:SetPoint("TOPRIGHT", f, 27,10)
-	h:SetBackdrop({
+	h.backdropInfo = {
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 		tile = true,
 		tileSize = 16,
 		edgeSize = 16
-	})
+	}
+	h:ApplyBackdrop()
 	h:Hide();
 	local gg = CreateFrame("Button", nil, g)
 	gg:SetNormalTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Up.blp")
@@ -2323,16 +2073,17 @@ local function CopyEditBox(cname, cx, cy, cw, ch)
 end
 
 local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
-	local f=CreateFrame("frame",cname,UIParent);
+	local f=CreateFrame("frame",cname,UIParent, "BackdropTemplate");
 	f:SetWidth(cw+10); f:SetHeight(ch+10);
 	f:SetPoint("CENTER",cx,cy);
-	f:SetBackdrop({
+	f.backdropInfo = {
 		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 		tile = true,
 		tileSize = 16,
 		edgeSize = 16
-	})
+	}
+	f:ApplyBackdrop()
 	f:SetFrameStrata("HIGH");
 	f:SetMovable(true);
 	f:EnableMouse(true);
@@ -2960,7 +2711,7 @@ function oilvlframe()
 	CreateFrame("GameTooltip", "OilvlTooltip", UIParent, "GameTooltipTemplate");
 
 -- Oilvl Inspect Tooltips
-	CreateFrame("GameTooltip", "OilvlInspectTooltip", UIParent, "GameTooltipTemplate");
+	CreateFrame("GameTooltip", "OilvlInspectTooltip", UIParent, "BackdropTemplate");
 
 -- Oilvl Roll Tooltips
 	CreateFrame("GameTooltip", "OilvlRollTooltip", UIParent, "GameTooltipTemplate");
@@ -3017,65 +2768,11 @@ function OilvlGetStatisticId(OCategory, ORaidName, OTable, Oprint)
 	end
 end
 
-function oilvlSetOSTATULD()
-	for i = 1,8 do
-		OSTATULD[i][5] = select(2,GetAchievementInfo(OSTATULD[i][1])):gsub(" %(.*%)","")..""
+function oilvlSetOSTATCN()
+	for i = 1,10 do
+		OSTATCN[i][5] = select(2,GetAchievementInfo(OSTATCN[i][1])):gsub(" %(.*%)","")..""
 	end
 end
-
-function oilvlSetOSTATDAZAal()
- 	for i = 1,9 do
- 		OSTATDAZAal[i][5] = select(2,GetAchievementInfo(OSTATDAZAal[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATDAZAho()
- 	for i = 1,9 do
- 		OSTATDAZAho[i][5] = select(2,GetAchievementInfo(OSTATDAZAho[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATCOS()
- 	for i = 1,2 do
- 		OSTATCOS[i][5] = select(2,GetAchievementInfo(OSTATCOS[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATTEP()
- 	for i = 1,8 do
- 		OSTATTEP[i][5] = select(2,GetAchievementInfo(OSTATTEP[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATNY()
- 	for i = 1,12 do
- 		OSTATNY[i][5] = select(2,GetAchievementInfo(OSTATNY[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
--- function oilvlSetOSTATTN()
--- 	for i = 1,10 do
--- 		OSTATTN[i][5] = select(2,GetAchievementInfo(OSTATTN[i][1])):gsub(" %(.*%)","")..""
--- 	end
--- end
---
--- function oilvlSetOSTATTOV()
--- 	for i = 1,3 do
--- 		OSTATTOV[i][5] = select(2,GetAchievementInfo(OSTATTOV[i][1])):gsub(" %(.*%)","")..""
--- 	end
--- end
---
--- function oilvlSetOSTATTOS()
--- 	for i = 1,9 do
--- 		OSTATTOS[i][5] = select(2,GetAchievementInfo(OSTATTOS[i][1])):gsub(" %(.*%)","")..""
--- 	end
--- end
---
--- function oilvlSetOSTATABT()
--- 	for i = 1,11 do
--- 		OSTATABT[i][5] = select(2,GetAchievementInfo(OSTATABT[i][1])):gsub(" %(.*%)","")..""
--- 	end
--- end
 
 -------------------------------------------------------------------------------
 -- Font definitions.
@@ -3456,12 +3153,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 	else
 		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
     end
-	bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
-	bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
-	bigorp[TEPname] = Save_orp(TEPname, OSTATTEP, 8)
-	bigorp[NYname] = Save_orp(NYname, OSTATNY, 12)
-	--bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
-	--bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
+	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
 
 	local function Save_orp_vars(raidname3)
 		OSTAT, NumRaidBosses, twohighest, progression, orp["raidname"], orp["progression"], orp["LFR"], orp["Normal"], orp["Heroic"], orp["Mythic"] = bigorp[raidname3][1],bigorp[raidname3][2],bigorp[raidname3][3],bigorp[raidname3][4],bigorp[raidname3][5],bigorp[raidname3][6],bigorp[raidname3][7],bigorp[raidname3][8],bigorp[raidname3][9],bigorp[raidname3][10]
@@ -3480,20 +3172,9 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 
 	-- check Achivements for all raids
 	local RaidAchiv = {}
-	RaidAchiv[ULDname] ={}
-	RaidAchiv[DAZAname] ={}
-	RaidAchiv[COSname] ={}
-	RaidAchiv[TEPname] ={}
-	RaidAchiv[NYname] ={}
-	SaveAOTCCE(RaidAchiv[NYname],14068,14069)
-	SaveAOTCCE(RaidAchiv[TEPname],13784,13785)
-	SaveAOTCCE(RaidAchiv[COSname],13418,13419)
-	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
-	SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
-	--SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
-	--SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
-	--SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
-
+	RaidAchiv[CNname] ={}
+	SaveAOTCCE(RaidAchiv[CNname],14460, 14461)
+	
 	local oilvltooltiptexts = {}
 	for i = 1, OilvlTooltip:NumLines() do
 		if i > 1 and i < 5 then
@@ -3555,48 +3236,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		for i = 1, #oilvltooltiptexts do otooltip2:AddLine(oilvltooltiptexts[i]) end
 
 		local line = otooltip2:AddLine("")
-		otooltip2:SetCell(1,4,"|cffffffff"..ULDname,"LEFT",2)
+		otooltip2:SetCell(1,4,"|cffffffff"..CNname,"LEFT",2)
 		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
-			Save_orp_vars(ULDname)
+			Save_orp_vars(CNname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
-		otooltip2:SetCell(2,4,"|cffffffff"..DAZAname,"LEFT",2)
-		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
-			Save_orp_vars(DAZAname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(3,4,"|cffffffff"..COSname,"LEFT",2)
-		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
-		 	Save_orp_vars(COSname)
-		 	otooltip2:Clear()
-		 	DrawOTooltip2()
-		end)
-		otooltip2:SetCell(4,4,"|cffffffff"..TEPname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
-		 	Save_orp_vars(TEPname)
-		 	otooltip2:Clear()
-		 	DrawOTooltip2()
-		end)
-		otooltip2:SetCell(5,4,"|cffffffff"..NYname,"LEFT",2)
-		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
-		 	Save_orp_vars(NYname)
-		 	otooltip2:Clear()
-		 	DrawOTooltip2()
-		end)
-		-- otooltip2:SetCell(4,4,"|cffffffff"..TOVname,"LEFT",2)
-		-- otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
-		-- 	Save_orp_vars(TOVname)
-		-- 	otooltip2:Clear()
-		-- 	DrawOTooltip2()
-		-- end)
-		-- otooltip2:SetCell(5,4,"|cffffffff"..TOSname,"LEFT",2)
-		-- otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
-		-- 	Save_orp_vars(TOSname)
-		-- 	otooltip2:Clear()
-		-- 	DrawOTooltip2()
-		-- end)
 
 		line = otooltip2:AddLine()
 		otooltip2:SetCell(line, 1, "|cffffffff" ..orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"].. "|r", "LEFT", 5)
@@ -3925,12 +3570,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	else
 		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
     end
-	bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
-	bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
-	bigorp[TEPname] = Save_orp(TEPname, OSTATTEP, 8)
-	bigorp[NYname] = Save_orp(NYname, OSTATNY, 12)
-	--bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
-	--bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
+	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
 
 	local function Save_orp_vars(raidname3)
 		OSTAT, NumRaidBosses, twohighest, progression, orp["raidname"], orp["progression"], orp["LFR"], orp["Normal"], orp["Heroic"], orp["Mythic"] = bigorp[raidname3][1],bigorp[raidname3][2],bigorp[raidname3][3],bigorp[raidname3][4],bigorp[raidname3][5],bigorp[raidname3][6],bigorp[raidname3][7],bigorp[raidname3][8],bigorp[raidname3][9],bigorp[raidname3][10]
@@ -3948,19 +3588,8 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	end
 
 	local RaidAchiv = {}
-	RaidAchiv[ULDname] ={}
-	RaidAchiv[DAZAname] ={}
-	RaidAchiv[COSname] ={}
-	RaidAchiv[TEPname] ={}
-	RaidAchiv[NYname] ={}
-	SaveAOTCCE(RaidAchiv[NYname],14068,14069)
-	SaveAOTCCE(RaidAchiv[TEPname],13784,13785)
-	SaveAOTCCE(RaidAchiv[COSname],13418,13419)
-	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
-	SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
-	--SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
-	--SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
-	--SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
+	RaidAchiv[CNname] ={}
+	SaveAOTCCE(RaidAchiv[CNname],14460, 14461)
 
 	local oilvltooltiptexts = {}
 	for i = 1, OilvlTooltip:NumLines() do
@@ -4047,48 +3676,12 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 		for i = 1, #oilvltooltiptexts do otooltip2:AddLine(oilvltooltiptexts[i]) end
 
 		local line = otooltip2:AddLine("")
-		otooltip2:SetCell(1,4,"|cffffffff"..ULDname,"LEFT",2)
+		otooltip2:SetCell(1,4,"|cffffffff"..CNname,"LEFT",2)
 		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
-			Save_orp_vars(ULDname)
+			Save_orp_vars(CNname)
 		 	otooltip2:Clear()
 		 	DrawOTooltip2()
 		end)
-		otooltip2:SetCell(2,4,"|cffffffff"..DAZAname,"LEFT",2)
-		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
-			Save_orp_vars(DAZAname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(3,4,"|cffffffff"..COSname,"LEFT",2)
-		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
-			Save_orp_vars(COSname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(4,4,"|cffffffff"..TEPname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
-			Save_orp_vars(TEPname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(5,4,"|cffffffff"..NYname,"LEFT",2)
-		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
-			Save_orp_vars(NYname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		-- otooltip2:SetCell(4,4,"|cffffffff"..TOVname,"LEFT",2)
-		-- otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
-		-- 	Save_orp_vars(TOVname)
-		-- 	otooltip2:Clear()
-		-- 	DrawOTooltip2()
-		-- end)
-		-- otooltip2:SetCell(5,4,"|cffffffff"..TOSname,"LEFT",2)
-		-- otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
-		-- 	Save_orp_vars(TOSname)
-		-- 	otooltip2:Clear()
-		-- 	DrawOTooltip2()
-		-- end)
 
 		line = otooltip2:AddLine()
 		otooltip2:SetCell(line, 1, "|cffffffff" ..orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"].. "|r", "LEFT", 5)
@@ -4731,7 +4324,8 @@ function otooltip6func()
 						OilvlInspectTooltip:SetMinimumWidth(150)
 
 						local additionalTooltipBackdrop = {bgFile="Interface/Buttons/WHITE8X8",edgeFile="Interface/Tooltips/UI-Tooltip-Border",tile=false,edgeSize=14,insets={left=0.5,right=0.5,top=0.5,bottom=0.5}}
-						OilvlInspectTooltip:SetBackdrop(additionalTooltipBackdrop)
+						OilvlInspectTooltip.backdropInfo = additionalTooltipBackdrop
+						OilvlInspectTooltip:ApplyBackdrop()
 						OilvlInspectTooltip:SetBackdropColor(0,0,0,1)
 						OilvlInspectTooltip:SetBackdropBorderColor(1,1,1,1)
 
@@ -5078,7 +4672,7 @@ local enchantID = {
 }
 
 local gemTexture = {
-	[1990986]=true,[1990989]=true,[1990987]=true, [1990984]=true, [1995542]=true
+	[3743190]=true,[3743188]=true,[3743191]=true, [3743193]=true,
 }
 
 local OgemFrame = CreateFrame('GameTooltip', 'OSocketTooltip', nil, 'GameTooltipTemplate');
@@ -5690,17 +5284,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 		if cfg.oilvlms then
 			if Omover2 == 1 then
 				if UnitExists(rpunit) and CheckInteractDistance(rpunit, 1) and rpsw then
-					if cfg.raidmenuid == 1 then OGetRaidProgression2(ULDname, OSTATULD, 8, UnitFactionGroup(rpunit)); end
-					-- if cfg.raidmenuid == 4 then OGetRaidProgression2(TOVname, OSTATTOV, 3); end
-					-- if cfg.raidmenuid == 3 then OGetRaidProgression2(TNname, OSTATTN, 10); end
-					if UnitFactionGroup(rpunit) == 'Alliance' then
-						if cfg.raidmenuid == 2 then OGetRaidProgression2(DAZAname, OSTATDAZAal, 9, UnitFactionGroup(rpunit)); end
-					else
-						if cfg.raidmenuid == 2 then OGetRaidProgression2(DAZAname, OSTATDAZAho, 9, UnitFactionGroup(rpunit)); end
-					end
-					if cfg.raidmenuid == 3 then OGetRaidProgression2(COSname, OSTATCOS, 2); end
-					if cfg.raidmenuid == 4 then OGetRaidProgression2(TEPname, OSTATTEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(NYname, OSTATNY, 12); end
+					if cfg.raidmenuid == 1 then OGetRaidProgression2(CNname, OSTATCN, 10, UnitFactionGroup(rpunit)); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5709,17 +5293,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 				end
 			elseif Omover2 == 2 then
 				if UnitExists(rpunit) and CheckInteractDistance(rpunit, 1) and rpsw then
-					if cfg.raidmenuid == 1 then OGetRaidProgression3(ULDname, OSTATULD, 8, UnitFactionGroup(rpunit)); end
-					-- if cfg.raidmenuid == 4 then OGetRaidProgression3(TOVname, OSTATTOV, 3); end
-					-- if cfg.raidmenuid == 3 then OGetRaidProgression3(TNname, OSTATTN, 10); end
-					if UnitFactionGroup(rpunit) == 'Alliance' then
-						if cfg.raidmenuid == 2 then OGetRaidProgression3(DAZAname, OSTATDAZAal, 9, UnitFactionGroup(rpunit)); end
-					else
-						if cfg.raidmenuid == 2 then OGetRaidProgression3(DAZAname, OSTATDAZAho, 9, UnitFactionGroup(rpunit)); end
-					end
-					if cfg.raidmenuid == 3 then OGetRaidProgression3(COSname, OSTATCOS, 2); end
-					if cfg.raidmenuid == 4 then OGetRaidProgression3(TEPname, OSTATTEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression3(NYname, OSTATNY, 12); end
+					if cfg.raidmenuid == 1 then OGetRaidProgression3(CNname, OSTATCN, 10, UnitFactionGroup(rpunit)); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5728,17 +5302,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 				end
 			else
 				if UnitExists("target") and CheckInteractDistance("target", 1)  and rpsw then
-					if cfg.raidmenuid == 1 then OGetRaidProgression(ULDname, OSTATULD, 8); end
-					-- if cfg.raidmenuid == 4 then OGetRaidProgression(TOVname, OSTATTOV, 3); end
-					-- if cfg.raidmenuid == 3 then OGetRaidProgression(TNname, OSTATTN, 10); end
-					if UnitFactionGroup("target") == 'Alliance' then
-						if cfg.raidmenuid == 2 then OGetRaidProgression(DAZAname, OSTATDAZAal, 9); end
-					else
-						if cfg.raidmenuid == 2 then OGetRaidProgression(DAZAname, OSTATDAZAho, 9); end
-					end
-					if cfg.raidmenuid == 3 then OGetRaidProgression(COSname, OSTATCOS, 2); end
-					if cfg.raidmenuid == 4 then OGetRaidProgression(TEPname, OSTATTEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression(NYname, OSTATNY, 12); end
+					if cfg.raidmenuid == 1 then OGetRaidProgression(CNname, OSTATCN, 10); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5858,14 +5422,7 @@ function events:PLAYER_LOGIN(...)
 		if not lootslotSW then C_Timer.After(5,function() oilvlaltc() end); end
 		if not oilvlOnHyperlinkClickSW then C_Timer.After(5,function() oilvlOnHyperlinkClick() end); end
 	end
-	oilvlSetOSTATULD()
-	oilvlSetOSTATDAZAal()
-	oilvlSetOSTATDAZAho()
-	oilvlSetOSTATCOS()
-	oilvlSetOSTATTEP()
-	oilvlSetOSTATNY()
-	-- oilvlSetOSTATTOS()
-	-- oilvlSetOSTATABT()
+	oilvlSetOSTATCN()
 	--[[Fix for Lua errors with Blizzard_AchievementUI below]]--
 	local unregistered,reregistered
 	local function reregisterBlizz()
@@ -6116,14 +5673,7 @@ function OilvlRaidMenu()
 	ORaidDropDownMenu:Show()
 
 	local items = {
-		-- ABTname,
-		-- TOSname,
-		-- TNname,
-		ULDname,
-		DAZAname,
-		COSname,
-		TEPname,
-		NYname,
+		CNname,
 	}
 
 	local function OnClick(self)
