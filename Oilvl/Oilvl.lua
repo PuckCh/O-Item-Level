@@ -2728,45 +2728,6 @@ function oilvlframe()
 --	tinsert(UISpecialFrames,"OIVLFRAME");
 --	f:SetUserPlaced(true);
 end
--- OCategory is the expansion title.
--- ORaidname is the raid title.
--- Oprint is to print out the result if true.
--- Example:
--- OilvlGetStatisticId("Warlords of Draenor", "Highmaul", OSTATHM, false)
--- OilvlGetStatisticId("Warlords of Draenor", "Blackrock Foundry", OSTATBF, false)
-function OilvlGetStatisticId(OCategory, ORaidName, OTable, Oprint)
-	local str = ""
-	for _, CategoryId in pairs(GetStatisticsCategoryList()) do
-		local Title, ParentCategoryId, Something
-		Title, ParentCategoryId, Something = GetCategoryInfo(CategoryId)
-
-		if Title == OCategory then
-			local i
-			local statisticCount = GetCategoryNumAchievements(CategoryId)
-			local j=1; -- boss Count
-			local k=1; -- difficulties Count
-			for i = 1, statisticCount do
-				local IDNumber, OOName, _, _, _, _, _, _, _, _, _ = GetAchievementInfo(CategoryId, i)
-				if OOName:find(ORaidName) then
-					if k == 1 then
-						OTable[j] = {}
-					end
-					OTable[j][k] = IDNumber;
-					if k < 4 then
-						k = k + 1;
-					else
-						OTable[j][k+1] = OOName:gsub(" defeats ",""):gsub(" kills ",""):gsub(" destructions ",""):gsub("%(.*%)","").."";
-						k = 1;
-						j = j + 1;
-					end
-					if Oprint then
-						print(OOName..":"..IDNumber)
-					end
-				end
-			end
-		end
-	end
-end
 
 function oilvlSetOSTATCN()
 	for i = 1,10 do
