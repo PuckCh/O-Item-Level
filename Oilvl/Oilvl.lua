@@ -228,9 +228,7 @@ local bagilvltime=0
 
 local SL, _, _ = EJ_GetTierInfo(8);
 local CNid, CNname = EJ_GetInstanceByIndex(2, true)
-local COSid, COSname = EJ_GetInstanceByIndex(4, true)
-local TEPid, TEPname = EJ_GetInstanceByIndex(5, true)
-local NYid, NYname = EJ_GetInstanceByIndex(6, true)
+local SOD, SODname = EJ_GetInstanceByIndex(3, true)
 --/run local instID = EJ_GetInstanceForMap(C_Map.GetBestMapForUnit("player")); DEFAULT_CHAT_FRAME:AddMessage(instID)
 
 -- Each raid has its own entry,
@@ -295,6 +293,69 @@ local OSTATCN = {
 		14455, -- [2]
 		14456, -- [3]
 		14457, -- [4]
+	}, -- [10]
+}
+
+local OSTATSOD = {
+	{
+		15136, -- [1]
+		15137, -- [2]
+		15138, -- [3]
+		15139, -- [4]
+	}, -- [1]
+	{
+		15140, -- [1]
+		15141, -- [2]
+		15142, -- [3]
+		15143, -- [4]
+	}, -- [2]
+	{
+		15144, -- [1]
+		15145, -- [2]
+		15146, -- [3]
+		15147, -- [4]
+	}, -- [3]
+	{
+		15148, -- [1]
+		15149, -- [2]
+		15150, -- [3]
+		15151, -- [4]
+	}, -- [4]
+	{
+		15152, -- [1]
+		15153, -- [2]
+		15154, -- [3]
+		15155, -- [4]
+	}, -- [5]
+	{
+		15156, -- [1]
+		15157, -- [2]
+		15158, -- [3]
+		15159, -- [4]
+	}, -- [6]
+	{
+		15160, -- [1]
+		15161, -- [2]
+		15162, -- [3]
+		15163, -- [4]
+	}, -- [7]
+	{
+		15164, -- [1]
+		15165, -- [2]
+		15166, -- [3]
+		15167, -- [4]
+	}, -- [8]
+	{
+		15169, -- [1]
+		15170, -- [2]
+		15171, -- [3]
+		15172, -- [4]
+	}, -- [9]
+	{
+		15173, -- [1]
+		15174, -- [2]
+		15175, -- [3]
+		15176, -- [4]
 	}, -- [10]
 }
 
@@ -1500,6 +1561,7 @@ function oilvlcheckrange()
 			for i = 2, OilvlTooltip:NumLines() do
 				msg = _G["OilvlTooltipTextLeft"..i]:GetText();
 				if msg then
+					if cfg.raidmenuid == 2 then msg = msg:find(SODname); if msg then break end end
 					if cfg.raidmenuid == 1 then msg = msg:find(CNname); if msg then break end end
 				end
 			end
@@ -2734,6 +2796,11 @@ function oilvlSetOSTATCN()
 		OSTATCN[i][5] = select(2,GetAchievementInfo(OSTATCN[i][1])):gsub(" %(.*%)","")..""
 	end
 end
+function oilvlSetOSTATSOD()
+	for i = 1,10 do
+		OSTATSOD[i][5] = select(2,GetAchievementInfo(OSTATSOD[i][1])):gsub(" %(.*%)","")..""
+	end
+end
 
 -------------------------------------------------------------------------------
 -- Font definitions.
@@ -3110,6 +3177,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 	end
 
 	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
+	bigorp[SODname] = Save_orp(SODname, OSTATSOD, 10)
 
 	local function Save_orp_vars(raidname3)
 		OSTAT, NumRaidBosses, twohighest, progression, orp["raidname"], orp["progression"], orp["LFR"], orp["Normal"], orp["Heroic"], orp["Mythic"] = bigorp[raidname3][1],bigorp[raidname3][2],bigorp[raidname3][3],bigorp[raidname3][4],bigorp[raidname3][5],bigorp[raidname3][6],bigorp[raidname3][7],bigorp[raidname3][8],bigorp[raidname3][9],bigorp[raidname3][10]
@@ -3129,7 +3197,9 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 	-- check Achivements for all raids
 	local RaidAchiv = {}
 	RaidAchiv[CNname] ={}
-	SaveAOTCCE(RaidAchiv[CNname],14460, 14461)
+	RaidAchiv[SODname] ={}
+	SaveAOTCCE(RaidAchiv[CNname], 14460, 14461)
+	SaveAOTCCE(RaidAchiv[SODname], 15134, 15135)
 	
 	local oilvltooltiptexts = {}
 	for i = 1, OilvlTooltip:NumLines() do
@@ -3195,6 +3265,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		otooltip2:SetCell(1,4,"|cffffffff"..CNname,"LEFT",2)
 		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
 			Save_orp_vars(CNname)
+			otooltip2:Clear()
+			DrawOTooltip2()
+		end)
+		otooltip2:SetCell(2,4,"|cffffffff"..SODname,"LEFT",2)
+		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
+			Save_orp_vars(SODname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
@@ -3522,6 +3598,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	end
 
 	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
+	bigorp[SODname] = Save_orp(SODname, OSTATSOD, 10)
 
 	local function Save_orp_vars(raidname3)
 		OSTAT, NumRaidBosses, twohighest, progression, orp["raidname"], orp["progression"], orp["LFR"], orp["Normal"], orp["Heroic"], orp["Mythic"] = bigorp[raidname3][1],bigorp[raidname3][2],bigorp[raidname3][3],bigorp[raidname3][4],bigorp[raidname3][5],bigorp[raidname3][6],bigorp[raidname3][7],bigorp[raidname3][8],bigorp[raidname3][9],bigorp[raidname3][10]
@@ -3540,7 +3617,9 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 
 	local RaidAchiv = {}
 	RaidAchiv[CNname] ={}
-	SaveAOTCCE(RaidAchiv[CNname],14460, 14461)
+	RaidAchiv[SODname] ={}
+	SaveAOTCCE(RaidAchiv[CNname], 14460, 14461)
+	SaveAOTCCE(RaidAchiv[SODname], 15134, 15135)
 
 	local oilvltooltiptexts = {}
 	for i = 1, OilvlTooltip:NumLines() do
@@ -3630,6 +3709,12 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 		otooltip2:SetCell(1,4,"|cffffffff"..CNname,"LEFT",2)
 		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
 			Save_orp_vars(CNname)
+		 	otooltip2:Clear()
+		 	DrawOTooltip2()
+		end)
+		otooltip2:SetCell(2,4,"|cffffffff"..SODname,"LEFT",2)
+		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
+			Save_orp_vars(SODname)
 		 	otooltip2:Clear()
 		 	DrawOTooltip2()
 		end)
@@ -5236,6 +5321,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 			if Omover2 == 1 then
 				if UnitExists(rpunit) and CheckInteractDistance(rpunit, 1) and rpsw then
 					if cfg.raidmenuid == 1 then OGetRaidProgression2(CNname, OSTATCN, 10, UnitFactionGroup(rpunit)); end
+					if cfg.raidmenuid == 2 then OGetRaidProgression2(SODname, OSTATSOD, 10, UnitFactionGroup(rpunit)); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5245,6 +5331,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 			elseif Omover2 == 2 then
 				if UnitExists(rpunit) and CheckInteractDistance(rpunit, 1) and rpsw then
 					if cfg.raidmenuid == 1 then OGetRaidProgression3(CNname, OSTATCN, 10, UnitFactionGroup(rpunit)); end
+					if cfg.raidmenuid == 2 then OGetRaidProgression3(SODname, OSTATSOD, 10, UnitFactionGroup(rpunit)); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5254,6 +5341,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 			else
 				if UnitExists("target") and CheckInteractDistance("target", 1)  and rpsw then
 					if cfg.raidmenuid == 1 then OGetRaidProgression(CNname, OSTATCN, 10); end
+					if cfg.raidmenuid == 2 then OGetRaidProgression(SODname, OSTATSOD, 10); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5336,7 +5424,7 @@ function events:PLAYER_LOGIN(...)
 	if cfg.oilvlframeY == nil then cfg.oilvlframeY = -60; end
 	if cfg.oilvlscale  == nil then cfg.oilvlscale = 0.8; end
 	if cfg.oilvlalpha  == nil then cfg.oilvlalpha = 1; end
-	if cfg.raidmenuid  == nil then cfg.raidmenuid = 1; end
+	if cfg.raidmenuid  == nil then cfg.raidmenuid = 2; end
 	if cfg.oilvlms == nil then cfg.oilvlms = true; end
 	if cfg.oilvlme == nil then cfg.oilvlme = true; end
 	if cfg.oilvlme2 == nil then cfg.oilvlme2 = false; end
@@ -5374,6 +5462,7 @@ function events:PLAYER_LOGIN(...)
 		if not oilvlOnHyperlinkClickSW then C_Timer.After(5,function() oilvlOnHyperlinkClick() end); end
 	end
 	oilvlSetOSTATCN()
+	oilvlSetOSTATSOD()
 	--[[Fix for Lua errors with Blizzard_AchievementUI below]]--
 	local unregistered,reregistered
 	local function reregisterBlizz()
@@ -5625,6 +5714,7 @@ function OilvlRaidMenu()
 
 	local items = {
 		CNname,
+		SODname,
 	}
 
 	local function OnClick(self)

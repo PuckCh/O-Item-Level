@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90100
 ## Title: O Item Level|cff00ccff(OiLvL)|r
 ## Author: OlzenKhaw, Teece
 ## Version: 9.0.2
